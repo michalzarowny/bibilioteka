@@ -1,0 +1,66 @@
+books = [
+    {
+        "id": 1,
+        "title": "Władca Pierścieni",
+        "author": "J.R.R. Tolkien",
+        "year": 1954,
+        "category": "Fantasy",
+        "pages": 423
+    },
+    {
+        "id": 2,
+        "title": "Hobbit",
+        "author": "J.R.R. Tolkien",
+        "year": 1937,
+        "category": "Fantasy",
+        "pages": 310
+    },
+    {
+        "id": 3,
+        "title": "1984",
+        "author": "George Orwell",
+        "year": 1949,
+        "category": "Science Fiction",
+        "pages": 328
+    },
+    {
+        "id": 4,
+        "title": "Zbrodnia i kara",
+        "author": "Fiodor Dostojewski",
+        "year": 1866,
+        "category": "Klasyka",
+        "pages": 527
+    },
+    {
+        "id": 5,
+        "title": "Mały Książę",
+        "author": "Antoine de Saint-Exupéry",
+        "year": 1943,
+        "category": "Literatura",
+        "pages": 96
+    },
+    {
+        "id": 6,
+        "title": "Pan Tadeusz",
+        "author": "Adam Mickiewicz",
+        "year": 1834,
+        "category": "Klasyka",
+        "pages": 340
+    },
+    {
+        "id": 7,
+        "title": "Harry Potter i Kamień Filozoficzny",
+        "author": "J.K. Rowling",
+        "year": 1997,
+        "category": "Fantasy",
+        "pages": 320
+    },
+    {
+        "id": 8,
+        "title": "Dziady",
+        "author": "Adam Mickiewicz",
+        "year": 1823,
+        "category": "Dramat",
+        "pages": 250
+    }
+]
