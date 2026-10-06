@@ -8,3 +8,5 @@ Proste API REST stworzone w Django.
 
 ```powershell
 .venv\Scripts\activate
+
+Biblioteka - aplikacja Django do obsługi książek i API.
