@@ -44,3 +44,25 @@ Jeżeli książka o podanym identyfikatorze nie istnieje, API zwraca kod HTTP 40
 Przed zmianą odpowiedzi API należy zachować przykładowe odpowiedzi z poprzedniej wersji aplikacji. Po zmianie należy zachować odpowiedzi z aktualnej wersji.
 
 Porównanie powinno potwierdzić, że zachowano dotychczasowy kontrakt API, w szczególności nazwy pól JSON i sposób obsługi błędów. Rzeczywiste odpowiedzi należy uzupełnić po wykonaniu testów.
+
+6. Przykład odpowiedzi przed zmianą
+
+Przed zmianą endpoint listy książek pobierał dane ze statycznego pliku data.py.
+
+Przykładowa struktura odpowiedzi:
+
+[
+  {
+    "id": 1,
+    "title": "Przykładowy tytuł",
+    "category": "Lektura"
+  }
+]
+
+Powyższy przykład pokazuje jedynie strukturę JSON. Należy zastąpić go rzeczywistą odpowiedzią z poprzedniej wersji API.
+
+7. Przykład odpowiedzi po zmianie
+
+Po zmianie endpoint pobiera dane z bazy danych za pomocą Django ORM.
+
+Należy wkleić rzeczywistą odpowiedź uzyskaną z aktualnego endpointu /api/books/ i porównać nazwy pól oraz format odpowiedzi z poprzednią wersją.
