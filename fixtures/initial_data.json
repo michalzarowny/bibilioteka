@@ -1,242 +1,242 @@
-[
-{
-  "model": "books.author",
-  "pk": 1,
-  "fields": {
-    "name": "Fiodor Dostojewski",
-    "birth_date": null
-  }
-},
-{
-  "model": "books.author",
-  "pk": 2,
-  "fields": {
-    "name": "Antoine de Saint-Exupéry",
-    "birth_date": null
-  }
-},
-{
-  "model": "books.author",
-  "pk": 3,
-  "fields": {
-    "name": "Adam Mickiewicz",
-    "birth_date": null
-  }
-},
-{
-  "model": "books.author",
-  "pk": 4,
-  "fields": {
-    "name": "J.R.R. Tolkien",
-    "birth_date": null
-  }
-},
-{
-  "model": "books.author",
-  "pk": 5,
-  "fields": {
-    "name": "J.R.R. Tolkien",
-    "birth_date": null
-  }
-},
-{
-  "model": "books.author",
-  "pk": 6,
-  "fields": {
-    "name": "George Orwell",
-    "birth_date": null
-  }
-},
-{
-  "model": "books.author",
-  "pk": 7,
-  "fields": {
-    "name": "J.K. Rowling",
-    "birth_date": null
-  }
-},
-{
-  "model": "books.author",
-  "pk": 8,
-  "fields": {
-    "name": "Adam Mickiewicz",
-    "birth_date": null
-  }
-},
-{
-  "model": "books.author",
-  "pk": 9,
-  "fields": {
-    "name": "Henryk Sienkiewicz",
-    "birth_date": null
-  }
-},
-{
-  "model": "books.author",
-  "pk": 10,
-  "fields": {
-    "name": "Juliusz S³owacki",
-    "birth_date": null
-  }
-},
-{
-  "model": "books.author",
-  "pk": 11,
-  "fields": {
-    "name": "Henryk Sienkiewicz",
-    "birth_date": null
-  }
-},
-{
-  "model": "books.author",
-  "pk": 12,
-  "fields": {
-    "name": "Aleksander Kamiñski",
-    "birth_date": null
-  }
-},
-{
-  "model": "books.book",
-  "pk": 1,
-  "fields": {
-    "title": "W³adca Pierœcieni",
-    "description": "",
-    "category": "Fantasy",
-    "pages": 423,
-    "publication_date": null,
-    "author": 4
-  }
-},
-{
-  "model": "books.book",
-  "pk": 2,
-  "fields": {
-    "title": "Hobbit",
-    "description": "",
-    "category": "Fantasy",
-    "pages": 310,
-    "publication_date": null,
-    "author": 5
-  }
-},
-{
-  "model": "books.book",
-  "pk": 3,
-  "fields": {
-    "title": "1984",
-    "description": "",
-    "category": "Science Fiction",
-    "pages": 328,
-    "publication_date": null,
-    "author": 6
-  }
-},
-{
-  "model": "books.book",
-  "pk": 4,
-  "fields": {
-    "title": "Zbrodnia i kara",
-    "description": "",
-    "category": "Klasyka",
-    "pages": 527,
-    "publication_date": null,
-    "author": 1
-  }
-},
-{
-  "model": "books.book",
-  "pk": 5,
-  "fields": {
-    "title": "Ma³y Ksi¹¿ê",
-    "description": "",
-    "category": "Literatura",
-    "pages": 96,
-    "publication_date": null,
-    "author": 2
-  }
-},
-{
-  "model": "books.book",
-  "pk": 6,
-  "fields": {
-    "title": "Pan Tadeusz",
-    "description": "",
-    "category": "Klasyka",
-    "pages": 340,
-    "publication_date": null,
-    "author": 3
-  }
-},
-{
-  "model": "books.book",
-  "pk": 7,
-  "fields": {
-    "title": "Harry Potter i Kamieñ Filozoficzny",
-    "description": "",
-    "category": "Fantasy",
-    "pages": 320,
-    "publication_date": null,
-    "author": 7
-  }
-},
-{
-  "model": "books.book",
-  "pk": 8,
-  "fields": {
-    "title": "Dziady",
-    "description": "",
-    "category": "Dramat",
-    "pages": 250,
-    "publication_date": null,
-    "author": 8
-  }
-},
-{
-  "model": "books.book",
-  "pk": 9,
-  "fields": {
-    "title": "Quo vadis",
-    "description": "",
-    "category": "Lektura",
-    "pages": 450,
-    "publication_date": null,
-    "author": 9
-  }
-},
-{
-  "model": "books.book",
-  "pk": 10,
-  "fields": {
-    "title": "Balladyna",
-    "description": "",
-    "category": "Lektura",
-    "pages": 120,
-    "publication_date": null,
-    "author": 10
-  }
-},
-{
-  "model": "books.book",
-  "pk": 11,
-  "fields": {
-    "title": "Latarnik",
-    "description": "",
-    "category": "Lektura",
-    "pages": 40,
-    "publication_date": null,
-    "author": 11
-  }
-},
-{
-  "model": "books.book",
-  "pk": 12,
-  "fields": {
-    "title": "Kamienie na szaniec",
-    "description": "",
-    "category": "Lektura",
-    "pages": 256,
-    "publication_date": null,
-    "author": 12
-  }
-}
-]
+[
+{
+  "model": "books.author",
+  "pk": 1,
+  "fields": {
+    "name": "Fiodor Dostojewski",
+    "birth_date": null
+  }
+},
+{
+  "model": "books.author",
+  "pk": 2,
+  "fields": {
+    "name": "Antoine de Saint-ExupÃ©ry",
+    "birth_date": null
+  }
+},
+{
+  "model": "books.author",
+  "pk": 3,
+  "fields": {
+    "name": "Adam Mickiewicz",
+    "birth_date": null
+  }
+},
+{
+  "model": "books.author",
+  "pk": 4,
+  "fields": {
+    "name": "J.R.R. Tolkien",
+    "birth_date": null
+  }
+},
+{
+  "model": "books.author",
+  "pk": 5,
+  "fields": {
+    "name": "J.R.R. Tolkien",
+    "birth_date": null
+  }
+},
+{
+  "model": "books.author",
+  "pk": 6,
+  "fields": {
+    "name": "George Orwell",
+    "birth_date": null
+  }
+},
+{
+  "model": "books.author",
+  "pk": 7,
+  "fields": {
+    "name": "J.K. Rowling",
+    "birth_date": null
+  }
+},
+{
+  "model": "books.author",
+  "pk": 8,
+  "fields": {
+    "name": "Adam Mickiewicz",
+    "birth_date": null
+  }
+},
+{
+  "model": "books.author",
+  "pk": 9,
+  "fields": {
+    "name": "Henryk Sienkiewicz",
+    "birth_date": null
+  }
+},
+{
+  "model": "books.author",
+  "pk": 10,
+  "fields": {
+    "name": "Juliusz SÂ³owacki",
+    "birth_date": null
+  }
+},
+{
+  "model": "books.author",
+  "pk": 11,
+  "fields": {
+    "name": "Henryk Sienkiewicz",
+    "birth_date": null
+  }
+},
+{
+  "model": "books.author",
+  "pk": 12,
+  "fields": {
+    "name": "Aleksander KamiÃ±ski",
+    "birth_date": null
+  }
+},
+{
+  "model": "books.book",
+  "pk": 1,
+  "fields": {
+    "title": "WÂ³adca PierÅ“cieni",
+    "description": "",
+    "category": "Fantasy",
+    "pages": 423,
+    "publication_date": null,
+    "author": 4
+  }
+},
+{
+  "model": "books.book",
+  "pk": 2,
+  "fields": {
+    "title": "Hobbit",
+    "description": "",
+    "category": "Fantasy",
+    "pages": 310,
+    "publication_date": null,
+    "author": 5
+  }
+},
+{
+  "model": "books.book",
+  "pk": 3,
+  "fields": {
+    "title": "1984",
+    "description": "",
+    "category": "Science Fiction",
+    "pages": 328,
+    "publication_date": null,
+    "author": 6
+  }
+},
+{
+  "model": "books.book",
+  "pk": 4,
+  "fields": {
+    "title": "Zbrodnia i kara",
+    "description": "",
+    "category": "Klasyka",
+    "pages": 527,
+    "publication_date": null,
+    "author": 1
+  }
+},
+{
+  "model": "books.book",
+  "pk": 5,
+  "fields": {
+    "title": "MaÂ³y KsiÂ¹Â¿Ãª",
+    "description": "",
+    "category": "Literatura",
+    "pages": 96,
+    "publication_date": null,
+    "author": 2
+  }
+},
+{
+  "model": "books.book",
+  "pk": 6,
+  "fields": {
+    "title": "Pan Tadeusz",
+    "description": "",
+    "category": "Klasyka",
+    "pages": 340,
+    "publication_date": null,
+    "author": 3
+  }
+},
+{
+  "model": "books.book",
+  "pk": 7,
+  "fields": {
+    "title": "Harry Potter i KamieÃ± Filozoficzny",
+    "description": "",
+    "category": "Fantasy",
+    "pages": 320,
+    "publication_date": null,
+    "author": 7
+  }
+},
+{
+  "model": "books.book",
+  "pk": 8,
+  "fields": {
+    "title": "Dziady",
+    "description": "",
+    "category": "Dramat",
+    "pages": 250,
+    "publication_date": null,
+    "author": 8
+  }
+},
+{
+  "model": "books.book",
+  "pk": 9,
+  "fields": {
+    "title": "Quo vadis",
+    "description": "",
+    "category": "Lektura",
+    "pages": 450,
+    "publication_date": null,
+    "author": 9
+  }
+},
+{
+  "model": "books.book",
+  "pk": 10,
+  "fields": {
+    "title": "Balladyna",
+    "description": "",
+    "category": "Lektura",
+    "pages": 120,
+    "publication_date": null,
+    "author": 10
+  }
+},
+{
+  "model": "books.book",
+  "pk": 11,
+  "fields": {
+    "title": "Latarnik",
+    "description": "",
+    "category": "Lektura",
+    "pages": 40,
+    "publication_date": null,
+    "author": 11
+  }
+},
+{
+  "model": "books.book",
+  "pk": 12,
+  "fields": {
+    "title": "Kamienie na szaniec",
+    "description": "",
+    "category": "Lektura",
+    "pages": 256,
+    "publication_date": null,
+    "author": 12
+  }
+}
+]
