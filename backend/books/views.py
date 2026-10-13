@@ -1,76 +1,98 @@
 from django.http import JsonResponse
-from .data import books
+from django.db import connection
+from django.db.models import Avg, Min, Max, Count
+from .models import Book, Author
 
 
 def book_list(request):
     category = request.GET.get("category")
+    books = Book.objects.select_related("author").all()
 
     if category:
-        result = [
-            book for book in books
-            if book["category"].lower() == category.lower()
-        ]
-    else:
-        result = books
+        books = books.filter(category__iexact=category)
 
-    return JsonResponse(result, safe=False)
+    results = [
+        {
+            "id": book.id,
+            "title": book.title,
+            "description": book.description,
+            "category": book.category,
+            "pages": book.pages,
+            "publication_date": (
+                book.publication_date.isoformat()
+                if book.publication_date else None
+            ),
+            "author": book.author.name,
+        }
+        for book in books
+    ]
+    return JsonResponse(results, safe=False)
+
 
 def book_detail(request, book_id):
-    for book in books:
-        if book["id"] == book_id:
-            return JsonResponse(book)
+    try:
+        book = Book.objects.select_related("author").get(id=book_id)
+    except Book.DoesNotExist:
+        return JsonResponse({"error": "Book not found"}, status=404)
 
-    return JsonResponse(
-        {"error": "Book not found"},
-        status=404
-    )
-
-def health(request):
     return JsonResponse({
-        "status": "ok"
+        "id": book.id,
+        "title": book.title,
+        "description": book.description,
+        "category": book.category,
+        "pages": book.pages,
+        "publication_date": (
+            book.publication_date.isoformat()
+            if book.publication_date else None
+        ),
+        "author": book.author.name,
     })
 
-import sys
-import django
-from .data import books
+
+def health(request):
+    try:
+        connection.ensure_connection()
+        return JsonResponse({"status": "ok"})
+    except Exception:
+        return JsonResponse({"status": "error"}, status=503)
 
 
 def info(request):
-    categories = []
-
-    for book in books:
-        if book["category"] not in categories:
-            categories.append(book["category"])
-
     return JsonResponse({
         "app_name": "Books API",
         "version": "1.0",
-        "python_version": sys.version.split()[0],
-        "django_version": django.get_version(),
-        "source": "static data",
-        "count": len(books),
-        "categories": categories
+        "source": "database",
+        "count": Book.objects.count(),
+        "categories": list(
+            Book.objects.order_by()
+            .values_list("category", flat=True)
+            .distinct()
+        ),
     })
 
+
 def statistics(request):
-    category_counts = {}
+    summary = Book.objects.aggregate(
+        count=Count("id"),
+        average_pages=Avg("pages"),
+        min_pages=Min("pages"),
+        max_pages=Max("pages"),
+    )
 
-    for book in books:
-        category = book["category"]
-
-        if category not in category_counts:
-            category_counts[category] = 0
-
-        category_counts[category] += 1
-
-    pages = [book["pages"] for book in books]
+    categories = list(
+        Book.objects.values("category")
+        .annotate(count=Count("id"))
+        .order_by("category")
+    )
 
     return JsonResponse({
-        "count": len(books),
-        "categories": category_counts,
+        "count": summary["count"],
+        "categories": {
+            item["category"]: item["count"] for item in categories
+        },
         "pages": {
-            "average": sum(pages) / len(pages),
-            "min": min(pages),
-            "max": max(pages)
-        }
+            "average": summary["average_pages"],
+            "min": summary["min_pages"],
+            "max": summary["max_pages"],
+        },
     })
