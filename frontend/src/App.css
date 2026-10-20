@@ -83,3 +83,12 @@ body {
 .book-card p {
   color: #526477;
 }
+
+
+.book-warning {
+  padding: 10px;
+  border-radius: 8px;
+  background: #fff3cd;
+  color: #856404;
+  font-weight: bold;
+}
