@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import './App.css'
 import { getBooks } from './api'
 import BookCard from './components/BookCard'
@@ -10,15 +10,17 @@ function App() {
   const [error, setError] = useState('')
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const [categories, setCategories] = useState([])
   const [sortOrder, setSortOrder] = useState('title-asc')
   const [selectedBook, setSelectedBook] = useState(null)
+  const [reloadKey, setReloadKey] = useState(0)
 
-  const loadBooks = async () => {
+  const loadBooks = useCallback(async () => {
     try {
       setLoading(true)
       setError('')
 
-      const data = await getBooks()
+      const data = await getBooks(selectedCategory)
       const booksData = Array.isArray(data)
         ? data
         : data.results ?? data.books ?? []
@@ -26,31 +28,86 @@ function App() {
       setBooks(booksData)
     } catch (err) {
       setError(err.message || 'Nie udało się pobrać książek.')
+      setBooks([])
     } finally {
       setLoading(false)
     }
-  }
+  }, [selectedCategory])
 
   useEffect(() => {
-    loadBooks()
+    let ignore = false
+
+    async function fetchBooks() {
+      try {
+        setLoading(true)
+        setError('')
+
+        const data = await getBooks(selectedCategory)
+        const booksData = Array.isArray(data)
+          ? data
+          : data.results ?? data.books ?? []
+
+        if (!ignore) {
+          setBooks(booksData)
+        }
+      } catch (err) {
+        if (!ignore) {
+          setError(err.message || 'Nie udało się pobrać książek.')
+          setBooks([])
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false)
+        }
+      }
+    }
+
+    fetchBooks()
+
+    return () => {
+      ignore = true
+    }
+  }, [selectedCategory, reloadKey])
+
+  useEffect(() => {
+    let ignore = false
+
+    async function fetchInfo() {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/info/`
+        )
+
+        if (!response.ok) {
+          throw new Error('Nie udało się pobrać kategorii.')
+        }
+
+        const info = await response.json()
+
+        if (!ignore) {
+          setCategories(info.categories ?? [])
+        }
+      } catch {
+        if (!ignore) {
+          setCategories([])
+        }
+      }
+    }
+
+    fetchInfo()
+
+    return () => {
+      ignore = true
+    }
   }, [])
 
-  const categories = [
-    ...new Set(books.map((book) => book.category).filter(Boolean)),
-  ]
-
   const filteredBooks = books.filter((book) => {
-    const query = search.toLowerCase()
+    const query = search.trim().toLowerCase()
 
-    const matchesSearch =
+    return (
       (book.title || '').toLowerCase().includes(query) ||
       (book.author || '').toLowerCase().includes(query)
-
-    const matchesCategory =
-      selectedCategory === 'all' ||
-      book.category === selectedCategory
-
-    return matchesSearch && matchesCategory
+    )
   })
 
   const sortedBooks = [...filteredBooks].sort((a, b) => {
@@ -125,7 +182,7 @@ function App() {
         {error && (
           <div className="error">
             <p>Nie udało się pobrać książek: {error}</p>
-            <button onClick={loadBooks}>
+            <button onClick={() => setReloadKey((key) => key + 1)}>
               Spróbuj ponownie
             </button>
           </div>
