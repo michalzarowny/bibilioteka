@@ -13,25 +13,25 @@ function App() {
   const [sortOrder, setSortOrder] = useState('title-asc')
   const [selectedBook, setSelectedBook] = useState(null)
 
-  useEffect(() => {
-    async function loadBooks() {
-      try {
-        setLoading(true)
-        setError('')
+  const loadBooks = async () => {
+    try {
+      setLoading(true)
+      setError('')
 
-        const data = await getBooks()
-        const booksData = Array.isArray(data)
-          ? data
-          : data.results ?? data.books ?? []
+      const data = await getBooks()
+      const booksData = Array.isArray(data)
+        ? data
+        : data.results ?? data.books ?? []
 
-        setBooks(booksData)
-      } catch (err) {
-        setError(err.message || 'Nie udało się pobrać książek.')
-      } finally {
-        setLoading(false)
-      }
+      setBooks(booksData)
+    } catch (err) {
+      setError(err.message || 'Nie udało się pobrać książek.')
+    } finally {
+      setLoading(false)
     }
+  }
 
+  useEffect(() => {
     loadBooks()
   }, [])
 
@@ -123,9 +123,12 @@ function App() {
         {loading && <p>Ładowanie książek...</p>}
 
         {error && (
-          <p className="error">
-            Nie udało się pobrać książek: {error}
-          </p>
+          <div className="error">
+            <p>Nie udało się pobrać książek: {error}</p>
+            <button onClick={loadBooks}>
+              Spróbuj ponownie
+            </button>
+          </div>
         )}
 
         {!loading && !error && sortedBooks.length === 0 && (
