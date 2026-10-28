@@ -1,5 +1,5 @@
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { getBooks } from './api'
 import BookCard from './components/BookCard'
@@ -34,10 +34,11 @@ function App() {
     }
   }, [selectedCategory])
 
+
   useEffect(() => {
     let ignore = false
 
-    async function fetchBooks() {
+    async function loadBooks() {
       try {
         setLoading(true)
         setError('')
@@ -62,12 +63,13 @@ function App() {
       }
     }
 
-    fetchBooks()
+    loadBooks()
 
     return () => {
       ignore = true
     }
   }, [selectedCategory, reloadKey])
+
 
   useEffect(() => {
     let ignore = false
