@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react'
 import './App.css'
-import { getBooks } from './api'
+import { getBook, getBooks } from './api'
 import BookCard from './components/BookCard'
 
 function App() {
@@ -13,27 +13,10 @@ function App() {
   const [categories, setCategories] = useState([])
   const [sortOrder, setSortOrder] = useState('title-asc')
   const [selectedBook, setSelectedBook] = useState(null)
+  const [detailLoading, setDetailLoading] = useState(false)
+  const [detailError, setDetailError] = useState('')
   const [reloadKey, setReloadKey] = useState(0)
-
-  const loadBooks = useCallback(async () => {
-    try {
-      setLoading(true)
-      setError('')
-
-      const data = await getBooks(selectedCategory)
-      const booksData = Array.isArray(data)
-        ? data
-        : data.results ?? data.books ?? []
-
-      setBooks(booksData)
-    } catch (err) {
-      setError(err.message || 'Nie udało się pobrać książek.')
-      setBooks([])
-    } finally {
-      setLoading(false)
-    }
-  }, [selectedCategory])
-
+  const [detailReloadKey, setDetailReloadKey] = useState(0)
 
   useEffect(() => {
     let ignore = false
@@ -70,15 +53,15 @@ function App() {
     }
   }, [selectedCategory, reloadKey])
 
-
   useEffect(() => {
     let ignore = false
 
-    async function fetchInfo() {
+    async function loadApiInfo() {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/info/`
-        )
+        const apiUrl =
+          import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+
+        const response = await fetch(`${apiUrl}/info/`)
 
         if (!response.ok) {
           throw new Error('Nie udało się pobrać kategorii.')
@@ -96,12 +79,51 @@ function App() {
       }
     }
 
-    fetchInfo()
+    loadApiInfo()
 
     return () => {
       ignore = true
     }
   }, [])
+
+  useEffect(() => {
+    if (!selectedBook) {
+      setDetailLoading(false)
+      setDetailError('')
+      return
+    }
+
+    let ignore = false
+
+    async function loadBookDetails() {
+      try {
+        setDetailLoading(true)
+        setDetailError('')
+
+        const data = await getBook(selectedBook.id)
+
+        if (!ignore) {
+          setSelectedBook(data)
+        }
+      } catch (err) {
+        if (!ignore) {
+          setDetailError(
+            err.message || 'Nie udało się pobrać szczegółów książki.'
+          )
+        }
+      } finally {
+        if (!ignore) {
+          setDetailLoading(false)
+        }
+      }
+    }
+
+    loadBookDetails()
+
+    return () => {
+      ignore = true
+    }
+  }, [selectedBook?.id, detailReloadKey])
 
   const filteredBooks = books.filter((book) => {
     const query = search.trim().toLowerCase()
@@ -130,17 +152,35 @@ function App() {
   if (selectedBook) {
     return (
       <main className="library">
-        <button onClick={() => setSelectedBook(null)}>
+        <button
+          onClick={() => {
+            setSelectedBook(null)
+            setDetailError('')
+          }}
+        >
           ← Powrót do listy
         </button>
 
-        <section>
-          <h1>{selectedBook.title}</h1>
-          <p><strong>Autor:</strong> {selectedBook.author}</p>
-          <p><strong>Rok wydania:</strong> {selectedBook.year}</p>
-          <p><strong>Kategoria:</strong> {selectedBook.category}</p>
-          <p><strong>Liczba stron:</strong> {selectedBook.pages}</p>
-        </section>
+        {detailLoading && <p>Ładowanie szczegółów książki...</p>}
+
+        {detailError && (
+          <div className="error">
+            <p>Nie udało się pobrać szczegółów: {detailError}</p>
+            <button onClick={() => setDetailReloadKey((key) => key + 1)}>
+              Spróbuj ponownie
+            </button>
+          </div>
+        )}
+
+        {!detailLoading && !detailError && (
+          <section>
+            <h1>{selectedBook.title}</h1>
+            <p><strong>Autor:</strong> {selectedBook.author}</p>
+            <p><strong>Rok wydania:</strong> {selectedBook.year}</p>
+            <p><strong>Kategoria:</strong> {selectedBook.category}</p>
+            <p><strong>Liczba stron:</strong> {selectedBook.pages}</p>
+          </section>
+        )}
       </main>
     )
   }
@@ -200,7 +240,10 @@ function App() {
               <BookCard
                 key={book.id}
                 book={book}
-                onClick={() => setSelectedBook(book)}
+                onClick={() => {
+                  setDetailError('')
+                  setSelectedBook(book)
+                }}
               />
             ))}
           </div>
