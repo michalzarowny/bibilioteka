@@ -1,14 +1,39 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
-import { books } from './data'
+import { getBooks } from './api'
 import BookCard from './components/BookCard'
 
 function App() {
+  const [books, setBooks] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [sortOrder, setSortOrder] = useState('title-asc')
   const [selectedBook, setSelectedBook] = useState(null)
+
+  useEffect(() => {
+    async function loadBooks() {
+      try {
+        setLoading(true)
+        setError('')
+
+        const data = await getBooks()
+        const booksData = Array.isArray(data)
+          ? data
+          : data.results ?? data.books ?? []
+
+        setBooks(booksData)
+      } catch (err) {
+        setError(err.message || 'Nie udało się pobrać książek.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadBooks()
+  }, [])
 
   const categories = [
     ...new Set(books.map((book) => book.category).filter(Boolean)),
@@ -18,8 +43,8 @@ function App() {
     const query = search.toLowerCase()
 
     const matchesSearch =
-      book.title.toLowerCase().includes(query) ||
-      book.author.toLowerCase().includes(query)
+      (book.title || '').toLowerCase().includes(query) ||
+      (book.author || '').toLowerCase().includes(query)
 
     const matchesCategory =
       selectedCategory === 'all' ||
@@ -31,13 +56,13 @@ function App() {
   const sortedBooks = [...filteredBooks].sort((a, b) => {
     switch (sortOrder) {
       case 'title-asc':
-        return a.title.localeCompare(b.title, 'pl')
+        return (a.title || '').localeCompare(b.title || '', 'pl')
       case 'title-desc':
-        return b.title.localeCompare(a.title, 'pl')
+        return (b.title || '').localeCompare(a.title || '', 'pl')
       case 'pages-asc':
-        return a.pages - b.pages
+        return (a.pages || 0) - (b.pages || 0)
       case 'pages-desc':
-        return b.pages - a.pages
+        return (b.pages || 0) - (a.pages || 0)
       default:
         return 0
     }
@@ -50,25 +75,12 @@ function App() {
           ← Powrót do listy
         </button>
 
-        <section className="books-section">
+        <section>
           <h1>{selectedBook.title}</h1>
-          <p>Autor: {selectedBook.author}</p>
-          <p>Kategoria: {selectedBook.category}</p>
-          <p>Rok wydania: {selectedBook.year}</p>
-          <p>
-            Liczba stron:{' '}
-            {selectedBook.pages.toLocaleString('pl-PL')}
-          </p>
-
-          {selectedBook.year < 1900
-            ? <p>📜 Książka historyczna</p>
-            : <p>📖 Książka wydana w 1900 roku lub później</p>}
-
-          {selectedBook.pages < 200 && (
-            <p className="book-warning">
-              ⚠️ Krótka książka — mniej niż 200 stron
-            </p>
-          )}
+          <p><strong>Autor:</strong> {selectedBook.author}</p>
+          <p><strong>Rok wydania:</strong> {selectedBook.year}</p>
+          <p><strong>Kategoria:</strong> {selectedBook.category}</p>
+          <p><strong>Liczba stron:</strong> {selectedBook.pages}</p>
         </section>
       </main>
     )
@@ -76,14 +88,9 @@ function App() {
 
   return (
     <main className="library">
-      <header className="library-header">
-        <h1>📚 Moja biblioteka</h1>
-        <p>Przeglądaj i wyszukuj książki</p>
-      </header>
+      <h1>Biblioteka</h1>
 
-      <section className="books-section">
-        <h2>Nasze książki ({sortedBooks.length})</h2>
-
+      <section>
         <input
           type="text"
           placeholder="Szukaj po tytule lub autorze..."
@@ -113,19 +120,29 @@ function App() {
           <option value="pages-desc">Liczba stron: malejąco</option>
         </select>
 
-        {sortedBooks.length === 0 && (
+        {loading && <p>Ładowanie książek...</p>}
+
+        {error && (
+          <p className="error">
+            Nie udało się pobrać książek: {error}
+          </p>
+        )}
+
+        {!loading && !error && sortedBooks.length === 0 && (
           <p>Nie znaleziono książek.</p>
         )}
 
-        <div className="books-list">
-          {sortedBooks.map((book) => (
-            <BookCard
-              key={book.id}
-              book={book}
-              onClick={() => setSelectedBook(book)}
-            />
-          ))}
-        </div>
+        {!loading && !error && (
+          <div className="books-list">
+            {sortedBooks.map((book) => (
+              <BookCard
+                key={book.id}
+                book={book}
+                onClick={() => setSelectedBook(book)}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </main>
   )
