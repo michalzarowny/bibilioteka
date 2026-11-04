@@ -1,4 +1,4 @@
-Użycie indeksu tablicy jako `key` zamiast unikalnego `id` może powodować problemy podczas aktualizowania listy, filtrowania lub zmiany kolejności elementów. React wykorzystuje `key` do rozpoznawania elementów między kolejnymi renderowaniami. Gdy używamy indeksu, po zmianie kolejności ten sam klucz może wskazywać na inną książkę, co może prowadzić do nieprawidłowego zachowania interfejsu. Dlatego lepiej używać stabilnego i unikalnego identyfikatora, takiego jak `book.id`.
+﻿Użycie indeksu tablicy jako `key` zamiast unikalnego `id` może powodować problemy podczas aktualizowania listy, filtrowania lub zmiany kolejności elementów. React wykorzystuje `key` do rozpoznawania elementów między kolejnymi renderowaniami. Gdy używamy indeksu, po zmianie kolejności ten sam klucz może wskazywać na inną książkę, co może prowadzić do nieprawidłowego zachowania interfejsu. Dlatego lepiej używać stabilnego i unikalnego identyfikatora, takiego jak `book.id`.
 
 ## Stany aplikacji biblioteki
 
@@ -29,3 +29,7 @@ Szczegóły wybranej książki są pobierane za pomocą funkcji `getBook(id)`. D
 
 Usunięto plik `frontend/src/data.js`, ponieważ przykładowe dane nie są już potrzebne. Komponent `BookCard` wyświetla dane książki przekazane z API.
 
+
+## Filtrowanie książek po stronie serwera
+
+Kategorie sa pobierane z endpointu /api/info/. Po wybraniu kategorii React wysyla nowe zadanie do API, np. /api/books/?category=Fantasy. Filtrowanie odbywa sie po stronie backendu Django, a nie tylko w przegladarce.
