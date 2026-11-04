@@ -21,3 +21,11 @@ Jeżeli pobieranie zakończy się poprawnie, ale nie ma książek do wyświetlen
 **Zrzut ekranu:** `docs/screenshots/empty.png`
 
 Zrzuty ekranu dokumentują zachowanie interfejsu w trzech stanach: ładowania, błędu i braku wyników.
+## Pobieranie danych z API Django
+
+Aplikacja React pobiera listę książek z backendu Django za pomocą funkcji `getBooks()` z pliku `frontend/src/api.js`. Dane są pobierane po uruchomieniu aplikacji oraz po zmianie wybranej kategorii.
+
+Szczegóły wybranej książki są pobierane za pomocą funkcji `getBook(id)`. Dzięki temu aplikacja korzysta z aktualnych danych z bazy danych, zamiast z lokalnej, statycznej listy książek.
+
+Usunięto plik `frontend/src/data.js`, ponieważ przykładowe dane nie są już potrzebne. Komponent `BookCard` wyświetla dane książki przekazane z API.
+
