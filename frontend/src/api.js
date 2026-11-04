@@ -7,9 +7,13 @@ if (!API_URL) {
 async function request(endpoint) {
   const response = await fetch(`${API_URL}${endpoint}`)
 
-  if (!response.ok) {
-    throw new Error(`Błąd API: ${response.status} ${response.statusText}`)
-  }
+  if (response.status === 404) {
+  throw new Error('Nie znaleziono książki o podanym identyfikatorze (404).')
+}
+
+if (!response.ok) {
+  throw new Error(`Błąd API: ${response.status} ${response.statusText}`)
+}
 
   return response.json()
 }

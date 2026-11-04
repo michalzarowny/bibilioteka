@@ -37,3 +37,7 @@ Kategorie sa pobierane z endpointu /api/info/. Po wybraniu kategorii React wysyl
 ## Zabezpieczenie przed race condition
 
 W efektach useEffect zastosowano zmienną ignore. Podczas czyszczenia efektu ustawiana jest na true. Dzięki temu wynik starszego żądania API nie nadpisze danych pobranych przez nowsze żądanie. Zabezpieczenie jest używane przy pobieraniu listy książek, kategorii oraz szczegółów książki.
+
+## Pobieranie szczegółów książki i obsługa błędu 404
+
+Po wybraniu książki aplikacja wysyła osobne żądanie do endpointu /api/books/{id}/. Szczegóły są pobierane na podstawie identyfikatora książki. Jeśli książka nie istnieje, API zwraca błąd 404, a React wyświetla komunikat o nieznalezieniu książki. Użytkownik może również ponowić próbę pobrania szczegółów.
