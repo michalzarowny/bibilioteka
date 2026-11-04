@@ -1,5 +1,8 @@
+const API_URL = import.meta.env.VITE_API_URL
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+if (!API_URL) {
+  throw new Error('Brak zmiennej VITE_API_URL w pliku .env')
+}
 
 async function request(endpoint) {
   const response = await fetch(`${API_URL}${endpoint}`)
@@ -19,6 +22,7 @@ export function getBooks(category = '') {
   }
 
   const query = params.toString()
+
   return request(`/books/${query ? `?${query}` : ''}`)
 }
 
