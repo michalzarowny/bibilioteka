@@ -33,3 +33,7 @@ Usunięto plik `frontend/src/data.js`, ponieważ przykładowe dane nie są już 
 ## Filtrowanie książek po stronie serwera
 
 Kategorie sa pobierane z endpointu /api/info/. Po wybraniu kategorii React wysyla nowe zadanie do API, np. /api/books/?category=Fantasy. Filtrowanie odbywa sie po stronie backendu Django, a nie tylko w przegladarce.
+
+## Zabezpieczenie przed race condition
+
+W efektach useEffect zastosowano zmienną ignore. Podczas czyszczenia efektu ustawiana jest na true. Dzięki temu wynik starszego żądania API nie nadpisze danych pobranych przez nowsze żądanie. Zabezpieczenie jest używane przy pobieraniu listy książek, kategorii oraz szczegółów książki.
